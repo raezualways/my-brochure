@@ -17,7 +17,7 @@
 
   .font-display { font-family: 'Playfair Display', serif; }
 
-  /* Волна сверху */
+  /* Мобильная волна (скрывается на ПК) */
   .top-wave {
     position: absolute; top: 0; left: 0; right: 0;
     height: 320px;
@@ -35,6 +35,10 @@
     box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     margin-bottom: 24px;
   }
+  /* На ПК карточки чуть просторнее */
+  @media (min-width: 768px) {
+    .card { padding: 32px; border-radius: 28px; }
+  }
 
   .why-card {
     background: #f0faf2; border: 1px solid #d1e7d6;
@@ -42,6 +46,17 @@
     transition: transform 0.2s;
   }
   .why-card:active { transform: scale(0.97); }
+
+  /* Для ПК варианта (прозрачные карточки на зеленом фоне) */
+  @media (min-width: 768px) {
+    .why-card { 
+      background: rgba(255,255,255,0.1); 
+      border-color: rgba(255,255,255,0.2); 
+      color: white; 
+    }
+    .why-card p.text-gray-600 { color: rgba(255,255,255,0.8) !important; }
+    .why-card p.text-green-900 { color: white !important; }
+  }
 
   .rule-item {
     display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;
@@ -60,8 +75,8 @@
     border: 1px solid #e5e7eb; display: flex; align-items: center; gap: 14px;
   }
 
-  /* Новый красивый финал */
-  .finale-section {
+  /* Мобильный финал (скрывается на ПК) */
+  .finale-mobile {
     background: linear-gradient(160deg, #3a6b48 0%, #4a7c59 40%, #6ba37a 100%);
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
@@ -69,52 +84,39 @@
     margin-top: 16px;
     box-shadow: 0 -10px 40px rgba(74, 124, 89, 0.2);
     text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .finale-section::before {
-    content: '';
-    position: absolute;
-    width: 200px; height: 200px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 50%;
-    top: -60px; right: -40px;
-  }
-  .finale-section::after {
-    content: '';
-    position: absolute;
-    width: 150px; height: 150px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 50%;
-    bottom: -40px; left: -30px;
   }
 </style>
 </head>
 <body>
 
-<div class="relative max-w-md mx-auto min-h-screen pb-0">
-  
-  <!-- Декоративная волна -->
-  <div class="top-wave"></div>
+<!-- ОБОЛОЧКА: На ПК это два столбца, на телефоне - один -->
+<div class="flex flex-col md:flex-row max-w-6xl mx-auto md:min-h-screen md:my-8 md:mx-auto md:rounded-3xl md:shadow-2xl md:overflow-hidden">
 
-  <!-- Контент -->
-  <div class="relative z-10 px-5 pt-14">
+  <!-- ЛЕВАЯ ПАНЕЛЬ (на ПК закреплена слева, на телефоне это верхушка) -->
+  <div class="relative w-full md:w-5/12 bg-gradient-to-br from-[#4a7c59] to-[#6ba37a] p-8 pt-14 pb-12 md:sticky md:top-8 md:h-[calc(100vh-4rem)] md:flex md:flex-col md:justify-between md:rounded-l-3xl">
     
-    <!-- ШАПКА -->
-    <div class="text-center mb-10">
-      <h1 class="font-display text-white text-4xl font-bold leading-tight mb-3">
+    <!-- Декор для ПК (полупрозрачные круги) -->
+    <div class="hidden md:block absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+    <div class="hidden md:block absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full -ml-24 -mb-24"></div>
+
+    <!-- Мобильная волна (видна только на телефоне) -->
+    <div class="top-wave md:hidden"></div>
+
+    <!-- Шапка -->
+    <div class="relative z-10 text-center md:text-left mb-10">
+      <h1 class="font-display text-white text-4xl md:text-5xl font-bold leading-tight mb-3">
         Простые правила здорового питания
       </h1>
       <p class="text-green-100 text-sm font-semibold tracking-widest uppercase">для подростков</p>
     </div>
 
-    <!-- БЛОК 1: Почему это важно? -->
-    <div class="card">
-      <div class="flex items-center gap-3 mb-5">
-        <div class="w-9 h-9 rounded-xl bg-green-700 flex items-center justify-center">
+    <!-- Блок "Почему это важно?" -->
+    <div class="relative z-10">
+      <div class="flex items-center gap-3 mb-5 justify-center md:justify-start">
+        <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
           <span class="text-white text-base font-bold">?</span>
         </div>
-        <h2 class="font-display text-green-900 text-xl font-bold">Почему это важно?</h2>
+        <h2 class="font-display text-white text-xl font-bold">Почему это важно?</h2>
       </div>
       
       <div class="grid grid-cols-2 gap-3">
@@ -141,126 +143,146 @@
       </div>
     </div>
 
-    <!-- БЛОК 2: 7 правил -->
-    <div class="card">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-9 h-9 rounded-xl bg-green-700 flex items-center justify-center">
-          <span class="text-white text-base font-bold">✓</span>
-        </div>
-        <h2 class="font-display text-green-900 text-xl font-bold">7 золотых правил</h2>
-      </div>
-
-      <div>
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-red-400 to-red-600">1</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Ешь разнообразную пищу 🎨</p>
-            <p class="text-gray-600 text-base leading-relaxed">Фрукты, овощи, злаки, белки — чем больше цветов на тарелке, тем лучше.</p>
-          </div>
-        </div>
-
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-blue-400 to-blue-600">2</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Пей достаточно воды 💧</p>
-            <p class="text-gray-600 text-base leading-relaxed">6–8 стаканов чистой воды в день. Замени газировки на воду и чай.</p>
-          </div>
-        </div>
-
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-amber-400 to-amber-600">3</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Не пропускай завтрак 🌅</p>
-            <p class="text-gray-600 text-base leading-relaxed">Завтрак запускает обмен веществ. Каша, яйца или творог — идеальный выбор.</p>
-          </div>
-        </div>
-
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-green-400 to-green-600">4</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Ограничь фастфуд и сладости 🚫</p>
-            <p class="text-gray-600 text-base leading-relaxed">Чипсы и конфеты — только редко. Не делай их ежедневной привычкой.</p>
-          </div>
-        </div>
-
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-purple-400 to-purple-600">5</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Соблюдай режим питания 🕐</p>
-            <p class="text-gray-600 text-base leading-relaxed">3 основных приёма пищи и 1–2 полезных перекуса в одно и то же время.</p>
-          </div>
-        </div>
-
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-teal-400 to-teal-600">6</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Овощи — половина тарелки 🥦</p>
-            <p class="text-gray-600 text-base leading-relaxed">Добавляй свежие или приготовленные овощи к каждому приёму пищи.</p>
-          </div>
-        </div>
-
-        <div class="rule-item">
-          <div class="rule-num bg-gradient-to-br from-orange-400 to-orange-600">7</div>
-          <div>
-            <p class="text-gray-900 text-lg font-bold mb-1">Жуй медленно 🧘‍♂️</p>
-            <p class="text-gray-600 text-base leading-relaxed">Не торопись во время еды. Мозг сигнализирует о сытости только через 20 минут.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- БЛОК 3: Умные замены -->
-    <div class="card">
-      <div class="flex items-center gap-3 mb-5">
-        <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center">
-          <span class="text-white text-base font-bold">⇄</span>
-        </div>
-        <h2 class="font-display text-green-900 text-xl font-bold">Умные замены</h2>
-      </div>
-      <div class="grid grid-cols-1 gap-3">
-        <div class="swap-item">
-          <span class="text-xl">🍬</span>
-          <span class="text-base font-medium text-gray-800">Сладости</span>
-          <span class="text-green-600 text-xl mx-1">→</span>
-          <span class="text-xl">🍎</span>
-          <span class="text-base font-semibold text-green-800">Фрукты</span>
-        </div>
-        <div class="swap-item">
-          <span class="text-xl">🥤</span>
-          <span class="text-base font-medium text-gray-800">Газировка</span>
-          <span class="text-green-600 text-xl mx-1">→</span>
-          <span class="text-xl">🍋</span>
-          <span class="text-base font-semibold text-green-800">Вода с лимоном</span>
-        </div>
-        <div class="swap-item">
-          <span class="text-xl">🍟</span>
-          <span class="text-base font-medium text-gray-800">Чипсы</span>
-          <span class="text-green-600 text-xl mx-1">→</span>
-          <span class="text-xl">🥜</span>
-          <span class="text-base font-semibold text-green-800">Орехи</span>
-        </div>
-        <div class="swap-item">
-          <span class="text-xl">🍔</span>
-          <span class="text-base font-medium text-gray-800">Фастфуд</span>
-          <span class="text-green-600 text-xl mx-1">→</span>
-          <span class="text-xl">🥗</span>
-          <span class="text-base font-semibold text-green-800">Домашняя еда</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- БЛОК 4: Новый красивый финал -->
-  <div class="finale-section">
-    <div class="relative z-10">
-      <span class="text-6xl mb-6 block drop-shadow-lg">🌱</span>
-      <h2 class="font-display text-white text-3xl font-bold leading-snug mb-6 drop-shadow-md">
+    <!-- Финальная цитата (На ПК она тут, на телефоне скрыта) -->
+    <div class="relative z-10 mt-10 hidden md:block border-t border-white/20 pt-8">
+      <span class="text-5xl mb-4 block drop-shadow-lg">🌱</span>
+      <h2 class="font-display text-white text-3xl font-bold leading-snug mb-4 drop-shadow-md">
         «Здоровое питание — это не диета, а образ жизни»
       </h2>
-      <div class="w-20 h-1 bg-white/30 rounded-full mx-auto mb-6"></div>
+      <div class="w-20 h-1 bg-white/30 rounded-full mb-4 md:ml-0 mx-auto"></div>
       <p class="text-green-100 text-xl font-medium leading-relaxed">
         Ешь так, чтобы тобой гордился твой организм!
       </p>
+    </div>
+  </div>
+
+  <!-- ПРАВАЯ ПАНЕЛЬ (Контент: правила и замены) -->
+  <div class="w-full md:w-7/12 p-5 pt-6 pb-0 md:p-12 md:pl-10 bg-gray-50 md:bg-white relative z-10">
+    
+    <!-- На телефоне нужен отступ сверху из-за волны, на ПК нет -->
+    <div class="mt-72 md:mt-0">
+      
+      <!-- БЛОК 2: 7 правил -->
+      <div class="card">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-9 h-9 rounded-xl bg-green-700 flex items-center justify-center">
+            <span class="text-white text-base font-bold">✓</span>
+          </div>
+          <h2 class="font-display text-green-900 text-xl font-bold">7 золотых правил</h2>
+        </div>
+
+        <div>
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-red-400 to-red-600">1</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Ешь разнообразную пищу 🎨</p>
+              <p class="text-gray-600 text-base leading-relaxed">Фрукты, овощи, злаки, белки — чем больше цветов на тарелке, тем лучше.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-blue-400 to-blue-600">2</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Пей достаточно воды 💧</p>
+              <p class="text-gray-600 text-base leading-relaxed">6–8 стаканов чистой воды в день. Замени газировки на воду и чай.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-amber-400 to-amber-600">3</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Не пропускай завтрак 🌅</p>
+              <p class="text-gray-600 text-base leading-relaxed">Завтрак запускает обмен веществ. Каша, яйца или творог — идеальный выбор.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-green-400 to-green-600">4</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Ограничь фастфуд и сладости 🚫</p>
+              <p class="text-gray-600 text-base leading-relaxed">Чипсы и конфеты — только редко. Не делай их ежедневной привычкой.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-purple-400 to-purple-600">5</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Соблюдай режим питания 🕐</p>
+              <p class="text-gray-600 text-base leading-relaxed">3 основных приёма пищи и 1–2 полезных перекуса в одно и то же время.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-teal-400 to-teal-600">6</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Овощи — половина тарелки 🥦</p>
+              <p class="text-gray-600 text-base leading-relaxed">Добавляй свежие или приготовленные овощи к каждому приёму пищи.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <div class="rule-num bg-gradient-to-br from-orange-400 to-orange-600">7</div>
+            <div>
+              <p class="text-gray-900 text-lg font-bold mb-1">Жуй медленно 🧘‍♂️</p>
+              <p class="text-gray-600 text-base leading-relaxed">Не торопись во время еды. Мозг сигнализирует о сытости только через 20 минут.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- БЛОК 3: Умные замены -->
+      <div class="card">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center">
+            <span class="text-white text-base font-bold">⇄</span>
+          </div>
+          <h2 class="font-display text-green-900 text-xl font-bold">Умные замены</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-3">
+          <div class="swap-item">
+            <span class="text-xl">🍬</span>
+            <span class="text-base font-medium text-gray-800">Сладости</span>
+            <span class="text-green-600 text-xl mx-1">→</span>
+            <span class="text-xl">🍎</span>
+            <span class="text-base font-semibold text-green-800">Фрукты</span>
+          </div>
+          <div class="swap-item">
+            <span class="text-xl">🥤</span>
+            <span class="text-base font-medium text-gray-800">Газировка</span>
+            <span class="text-green-600 text-xl mx-1">→</span>
+            <span class="text-xl">🍋</span>
+            <span class="text-base font-semibold text-green-800">Вода с лимоном</span>
+          </div>
+          <div class="swap-item">
+            <span class="text-xl">🍟</span>
+            <span class="text-base font-medium text-gray-800">Чипсы</span>
+            <span class="text-green-600 text-xl mx-1">→</span>
+            <span class="text-xl">🥜</span>
+            <span class="text-base font-semibold text-green-800">Орехи</span>
+          </div>
+          <div class="swap-item">
+            <span class="text-xl">🍔</span>
+            <span class="text-base font-medium text-gray-800">Фастфуд</span>
+            <span class="text-green-600 text-xl mx-1">→</span>
+            <span class="text-xl">🥗</span>
+            <span class="text-base font-semibold text-green-800">Домашняя еда</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Финальная цитата (Только для мобильных, на ПК она в левом столбце) -->
+      <div class="finale-mobile md:hidden">
+        <span class="text-6xl mb-6 block drop-shadow-lg">🌱</span>
+        <h2 class="font-display text-white text-3xl font-bold leading-snug mb-6 drop-shadow-md">
+          «Здоровое питание — это не диета, а образ жизни»
+        </h2>
+        <div class="w-20 h-1 bg-white/30 rounded-full mx-auto mb-6"></div>
+        <p class="text-green-100 text-xl font-medium leading-relaxed">
+          Ешь так, чтобы тобой гордился твой организм!
+        </p>
+      </div>
+      
+      <div class="h-6 md:h-0"></div>
     </div>
   </div>
 
